@@ -2,8 +2,8 @@ const request = require('supertest')
 const server = require('./api/server')
 const db = require('./data/db-config')
 
-const { users: initialUsers } = require('./data/seeds/02-users')
-const { posts: initialPosts } = require('./data/seeds/03-posts')
+const {users: initialUsers} = require('./data/seeds/02-users')
+const {posts: initialPosts} = require('./data/seeds/03-posts')
 
 beforeAll(async () => {
   await db.migrate.rollback()
@@ -51,48 +51,48 @@ describe('server.js', () => {
   })
   describe('[POST] /api/users', () => {
     test('[6] creates a new user in the database', async () => {
-      await request(server).post('/api/users').send({ name: 'foo' })
+      await request(server).post('/api/users').send({name: 'foo'})
       let users = await db('users')
       expect(users).toHaveLength(initialUsers.length + 1)
-      await request(server).post('/api/users').send({ name: 'bar' })
+      await request(server).post('/api/users').send({name: 'bar'})
       users = await db('users')
       expect(users).toHaveLength(initialUsers.length + 2)
     }, 750)
     test('[7] responds with the newly created user', async () => {
-      let res = await request(server).post('/api/users').send({ name: 'foo' })
-      expect(res.body).toMatchObject({ id: 10, name: 'foo' })
-      res = await request(server).post('/api/users').send({ name: 'bar' })
-      expect(res.body).toMatchObject({ id: 11, name: 'bar' })
+      let res = await request(server).post('/api/users').send({name: 'foo'})
+      expect(res.body).toMatchObject({id: 10, name: 'foo'})
+      res = await request(server).post('/api/users').send({name: 'bar'})
+      expect(res.body).toMatchObject({id: 11, name: 'bar'})
     }, 750)
     test('[8] responds with a 400 if missing name', async () => {
-      let res = await request(server).post('/api/users').send({ random: 'thing' })
+      let res = await request(server).post('/api/users').send({random: 'thing'})
       expect(res.status).toBe(400)
     }, 750)
     test('[9] responds with the correct error message if missing name', async () => {
-      let res = await request(server).post('/api/users').send({ random: 'thing' })
+      let res = await request(server).post('/api/users').send({random: 'thing'})
       expect(res.body.message).toMatch(/missing required name/i)
     }, 750)
   })
   describe('[PUT] /api/users/:id', () => {
     test('[10] writes the updates in the database', async () => {
-      await request(server).put('/api/users/1').send({ name: 'FRODO BAGGINS' })
+      await request(server).put('/api/users/1').send({name: 'FRODO BAGGINS'})
       let users = await db('users')
-      expect(users[0]).toMatchObject({ id: 1, name: 'FRODO BAGGINS' })
+      expect(users[0]).toMatchObject({id: 1, name: 'FRODO BAGGINS'})
     }, 750)
     test('[11] responds with the newly updated user', async () => {
-      let res = await request(server).put('/api/users/1').send({ name: 'FRODO BAGGINS' })
-      expect(res.body).toMatchObject({ id: 1, name: 'FRODO BAGGINS' })
+      let res = await request(server).put('/api/users/1').send({name: 'FRODO BAGGINS'})
+      expect(res.body).toMatchObject({id: 1, name: 'FRODO BAGGINS'})
     }, 750)
     test('[12] responds with a 404 if user id does not exist', async () => {
-      let res = await request(server).put('/api/users/111').send({ name: 'FRODO BAGGINS' })
+      let res = await request(server).put('/api/users/111').send({name: 'FRODO BAGGINS'})
       expect(res.status).toBe(404)
     }, 750)
     test('[13] responds with a 400 if missing name', async () => {
-      let res = await request(server).put('/api/users/1').send({ no: 'FRODO BAGGINS' })
+      let res = await request(server).put('/api/users/1').send({no: 'FRODO BAGGINS'})
       expect(res.status).toBe(400)
     }, 750)
     test('[14] responds with the correct error message if missing name', async () => {
-      let res = await request(server).put('/api/users/1').send({ no: 'FRODO BAGGINS' })
+      let res = await request(server).put('/api/users/1').send({no: 'FRODO BAGGINS'})
       expect(res.body.message).toMatch(/missing required name/i)
     }, 750)
   })
@@ -100,11 +100,11 @@ describe('server.js', () => {
     test('[15] deletes the user from the database', async () => {
       await request(server).delete('/api/users/1')
       let users = await db('users')
-      expect(users[0]).toMatchObject({ name: 'Samwise Gamgee' })
+      expect(users[0]).toMatchObject({name: 'Samwise Gamgee'})
     }, 750)
     test('[16] responds with the newly deleted user', async () => {
       let res = await request(server).delete('/api/users/1')
-      expect(res.body).toMatchObject({ id: 1, name: 'Frodo Baggins' })
+      expect(res.body).toMatchObject({id: 1, name: 'Frodo Baggins'})
     }, 750)
     test('[17] responds with a 404 if user id does not exist', async () => {
       let res = await request(server).delete('/api/users/111')
@@ -123,28 +123,28 @@ describe('server.js', () => {
   })
   describe('[POST] /api/users/:id/posts', () => {
     test('[20] creates a new user post in the database', async () => {
-      await request(server).post('/api/users/1/posts').send({ text: 'foo' })
+      await request(server).post('/api/users/1/posts').send({text: 'foo'})
       let posts = await db('posts').where('user_id', 1)
       expect(posts).toHaveLength(initialPosts.filter(p => p.user_id == 1).length + 1)
-      await request(server).post('/api/users/1/posts').send({ text: 'bar' })
+      await request(server).post('/api/users/1/posts').send({text: 'bar'})
       posts = await db('posts').where('user_id', 1)
       expect(posts).toHaveLength(initialPosts.filter(p => p.user_id == 1).length + 2)
     }, 750)
     test('[21] responds with the newly created user post', async () => {
-      let res = await request(server).post('/api/users/1/posts').send({ text: 'foo' })
+      let res = await request(server).post('/api/users/1/posts').send({text: 'foo'})
       expect(res.body).toHaveProperty('id')
-      expect(res.body).toMatchObject({ text: 'foo' })
+      expect(res.body).toMatchObject({text: 'foo'})
     }, 750)
     test('[22] responds with a 404 if user id does not exist', async () => {
-      let res = await request(server).post('/api/users/111/posts').send({ text: 'foo' })
+      let res = await request(server).post('/api/users/111/posts').send({text: 'foo'})
       expect(res.status).toBe(404)
     }, 750)
     test('[23] responds with a 400 if missing text', async () => {
-      let res = await request(server).post('/api/users/1/posts').send({ no: 'foo' })
+      let res = await request(server).post('/api/users/1/posts').send({no: 'foo'})
       expect(res.status).toBe(400)
     }, 750)
     test('[24] responds with the correct error message if missing text', async () => {
-      let res = await request(server).post('/api/users/1/posts').send({ no: 'foo' })
+      let res = await request(server).post('/api/users/1/posts').send({no: 'foo'})
       expect(res.body.message).toMatch(/missing required text/i)
     }, 750)
   })

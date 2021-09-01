@@ -17,19 +17,19 @@ const posts = [
   },
   {
     user_id: 2,
-    text: "I ain't been droppin' no eaves, sir! Promise!"
+    text: 'I ain\'t been droppin\' no eaves, sir! Promise!'
   },
   {
     user_id: 2,
-    text: "Of course you are, and I'm coming with you!"
+    text: 'Of course you are, and I\'m coming with you!'
   },
   {
     user_id: 2,
-    text: "I made a promise, Mr Frodo. A promise. Don't you leave him Samwise Gamgee. And I don't mean to. I don't mean to.",
+    text: 'I made a promise, Mr Frodo. A promise. Don\'t you leave him Samwise Gamgee. And I don\'t mean to. I don\'t mean to.',
   },
   {
     user_id: 2,
-    text: " N-nothing important. That is, I heard a great deal about a ring, a Dark Lord, and something about the end of the world, but... Please, Mr. Gandalf, sir, don't hurt me.",
+    text: ' N-nothing important. That is, I heard a great deal about a ring, a Dark Lord, and something about the end of the world, but... Please, Mr. Gandalf, sir, don\'t hurt me.',
   },
   {
     user_id: 3,
@@ -37,7 +37,7 @@ const posts = [
   },
   {
     user_id: 4,
-    text: "We've had one yes. What about second breakfast?"
+    text: 'We\'ve had one yes. What about second breakfast?'
   },
   {
     user_id: 4,
@@ -117,7 +117,7 @@ const posts = [
   },
   {
     user_id: 8,
-    text: "And I suppose you think you're the one to do it!"
+    text: 'And I suppose you think you\'re the one to do it!'
   },
   {
     user_id: 8,
@@ -129,7 +129,7 @@ const posts = [
   },
   {
     user_id: 9,
-    text: "We will not abandon Merry and Pippin to torment and death. Not while we have strength left. Leave all that can be spared behind. We travel light. Let's hunt some orc.",
+    text: 'We will not abandon Merry and Pippin to torment and death. Not while we have strength left. Leave all that can be spared behind. We travel light. Let\'s hunt some orc.',
   },
   {
     user_id: 9,
@@ -137,11 +137,11 @@ const posts = [
   },
   {
     user_id: 9,
-    text: "You draw too much attention to yourself, 'Mister Underhill'.",
+    text: 'You draw too much attention to yourself, \'Mister Underhill\'.',
   },
   {
     user_id: 9,
-    text: "A little more caution from you, that's no trinket you carry.",
+    text: 'A little more caution from you, that\'s no trinket you carry.',
   },
   {
     user_id: 9,
@@ -151,10 +151,10 @@ const posts = [
     user_id: 9,
     text: 'Indeed. I can avoid being seen, if I wish, but to disappear entirely, that is a rare gift.',
   },
-];
+]
 
-exports.posts = posts;
+exports.posts = posts
 
 exports.seed = function (knex) {
-  return knex('posts').insert(posts);
-};
+  return knex('posts').insert(posts)
+}

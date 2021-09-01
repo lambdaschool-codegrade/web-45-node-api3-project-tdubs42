@@ -1,17 +1,33 @@
-function logger(req, res, next) {
-  // DO YOUR MAGIC
+const logger = (req, res, next) => {
+  const dateAndTime = new Date()
+  const formatDateTime = `${dateAndTime.getFullYear()}-${(dateAndTime.getMonth() + 1)}-${dateAndTime.getDate()} ${dateAndTime.getHours()}:${dateAndTime.getMinutes()}:${dateAndTime.getSeconds()}`
+  const formatUrl = `${req.baseUrl}${req.url}`
+  const log = `
+  date: [${formatDateTime}] 
+  method: [${req.method}]
+  URL: [${formatUrl}]
+  status: [${res.statusCode}] 
+  requester IP: [${req.ip}]
+  `
+  console.log(log)
+  next()
 }
 
-function validateUserId(req, res, next) {
-  // DO YOUR MAGIC
+const validateUserId = (req, res, next) => {
+  next()
 }
 
-function validateUser(req, res, next) {
-  // DO YOUR MAGIC
+const validateUser = (req, res, next) => {
+  next()
 }
 
-function validatePost(req, res, next) {
-  // DO YOUR MAGIC
+const validatePost = (req, res, next) => {
+  next()
 }
 
-// do not forget to expose these functions to other modules
+module.exports = {
+  logger,
+  validateUserId,
+  validateUser,
+  validatePost
+}
