@@ -7,6 +7,7 @@ const {logger} = require('./middleware/middleware')
 const server = express()
 server.use(helmet())
 server.use(cors())
+server.use(express.json())
 
 server.use('/api/users', logger, usersRouter)
 

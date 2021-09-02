@@ -1,46 +1,60 @@
 const router = require('express').Router()
-const Users = require('./users-model')
+const User = require('./users-model')
+const Post = require('../posts/posts-model')
 const {validateUserId, validateUser, validatePost} = require('../middleware/middleware')
-// You will need `users-model.js` and `posts-model.js` both
-// The middleware functions also need to be required
-
 
 router.get('/', (req, res, next) => {
-  Users.get()
-    .then(users => res.status(200).json(users))
+  User.get()
+    .then(users => res.json(users))
     .catch(next)
 })
 
-router.get('/:id', validateUserId, (req, res, next) => {
-  // RETURN THE USER OBJECT
-  // this needs a middleware to verify user id
+router.get('/:id', validateUserId, (req, res) => {
+  res.json(req.user)
 })
 
 router.post('/', validateUser, (req, res, next) => {
-  // RETURN THE NEWLY CREATED USER OBJECT
-  // this needs a middleware to check that the request body is valid
+  User.insert(req.body)
+    .then(newUser => res.status(201).json(newUser))
+    .catch(next)
 })
 
 router.put('/:id', validateUser, validateUserId, (req, res, next) => {
-  // RETURN THE FRESHLY UPDATED USER OBJECT
-  // this needs a middleware to verify user id
-  // and another middleware to check that the request body is valid
+  const {id} = req.user
+  const changes = req.body
+  User.update(id, changes)
+    .then(updated => res.json(updated))
+    .catch(next)
 })
 
 router.delete('/:id', validateUserId, (req, res, next) => {
-  // RETURN THE FRESHLY DELETED USER OBJECT
-  // this needs a middleware to verify user id
+  const {id} = req.user
+  User.remove(id)
+    .then(numberOfRecordsDeleted => res.json(req.user))
+    .catch(next)
 })
 
 router.get('/:id/posts', validateUserId, (req, res, next) => {
-  // RETURN THE ARRAY OF USER POSTS
-  // this needs a middleware to verify user id
+  const {id} = req.user
+  User.getUserPosts(id)
+    .then(posts => res.json(posts))
+    .catch(next)
 })
 
 router.post('/:id/posts', validatePost, validateUserId, (req, res, next) => {
-  // RETURN THE NEWLY CREATED USER POST
-  // this needs a middleware to verify user id
-  // and another middleware to check that the request body is valid
+  const newPost = {...req.body, user_id: req.user.id}
+  Post.insert(newPost)
+    .then(posted => res.status(201).json(posted))
+    .catch(next)
 })
+
+/* eslint-disable */
+router.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
+    message: err.message,
+    fromTheDev: 'Mistakes were made'
+  })
+})
+/* eslint-enable */
 
 module.exports = router
